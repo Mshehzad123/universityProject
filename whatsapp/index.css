@@ -1,0 +1,37 @@
+/* style.css */
+body, html {
+    height: 100%;
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+.sidebar {
+    height: 100vh;
+    border-right: 1px solid #ddd;
+}
+.contacts-list {
+    height: calc(100vh - 140px);
+    overflow-y: auto;
+}
+.chat-area {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+.chat-content {
+    flex: 1;
+    overflow-y: auto;
+    background-color: #f7f7f7;
+}
+.message {
+    max-width: 60%;
+}
+.message-bubble {
+    max-width: 100%;
+    word-wrap: break-word;
+}
+.footer {
+    border-top: 1px solid #ddd;
+}
+.header {
+    border-bottom: 1px solid #ddd;
+}
