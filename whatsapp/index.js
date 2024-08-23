@@ -1,7 +1,4 @@
-function setDAta(){
-    return new Promise((resolve,reject)=>{
-        setTimeout(()=>{
-            
-        })
-    })
-}
+const camera = document.getElementById("conts");
+camera.addEventListener('click',()=>{
+    
+})
