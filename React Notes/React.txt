@@ -1,0 +1,44 @@
+//how to make variable in react 
+we can make varibles in react js using hooks 
+lets suppose 
+const [count, setCount] = useState(count);
+
+//TWO WAY BINDING 
+
+
+
+//ADDING MODULE/NORMAL CSS IN REACT AND USEREF (FOR VALIDATION , ACCESS THE DOM PROPERTIES)
+
+
+//props
+//mtlb ye hote he k parents class ma se kuch attributes child class ma dalne hote ha 
+//like this hm parent se child class ma dalne hote ha
+import React from 'react'
+
+function Header(props) {
+  return (
+    <div >
+      {props.user}
+    </div>
+  )
+}
+
+export default Header
+/////////////////
+import React, {useState}from 'react'
+import Header from './Components/Header'
+
+function App() {
+  const [first, setfirst] = useState("shehzad is here ")
+  return (
+    <>
+    <Header user = {first}/>
+    
+    </>
+  )
+}
+
+export default App
+
+
+// how to link the files   .....
