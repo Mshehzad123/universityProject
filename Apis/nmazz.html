@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Prayer Time Checker</title>
+    <title>Pokémon Info</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -17,7 +17,7 @@
             margin-bottom: 20px;
         }
         table {
-            width: 50%;
+            width: 60%;
             margin: 0 auto;
             border-collapse: collapse;
         }
@@ -36,81 +36,52 @@
         tbody tr:hover {
             background-color: #ddd;
         }
-        #audioStatus {
-            font-size: 18px;
-            color: #ff4500;
-            margin-top: 20px;
+        img {
+            width: 100px;
+            height: auto;
         }
     </style>
 </head>
 <body>
-    <h2>Current Time: <span id="current_Time"></span></h2>
-    <table class="table table-hover">
+    <h2>Pokémon List</h2>
+    <table>
         <thead>
             <tr>
-                <th>Prayer</th>
-                <th>Time</th>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Image</th>
             </tr>
         </thead>
-        <tbody id="prayer_Times"></tbody>
+        <tbody id="pokemon_List"></tbody>
     </table>
-    <div id="audioStatus"></div>
 
     <script>
-        async function fetchPrayerTimes() {
-            let response = await fetch('https://api.aladhan.com/v1/timingsByCity?city=AbuDhabi&country=uae&method=8');
-            let azan = await response.json();
-            console.log(azan);
+        async function fetchPokemonData() {
+            const limit = 10; // Number of Pokémon to fetch
+            let promises = [];
+            
+            // Fetch data for the first 'limit' Pokémon
+            for (let i = 1; i <= limit; i++) {
+                promises.push(fetch(`https://pokeapi.co/api/v2/pokemon/${i}/`));
+            }
+            
+            let responses = await Promise.all(promises);
+            let pokemons = await Promise.all(responses.map(response => response.json()));
+
             let rows = '';
-            // Append each prayer time to the table
-            for (const [prayer, time] of Object.entries(azan.data.timings)) {
+            // Append each Pokémon's data to the table
+            pokemons.forEach(pokemon => {
                 rows += `<tr>
-                    <td>${prayer}</td>
-                    <td>${time}</td>
+                    <td>${pokemon.id}</td>
+                    <td>${pokemon.name}</td>
+                    <td><img src="${pokemon.sprites.front_default}" alt="${pokemon.name}"></td>
                 </tr>`;
-            }
-            document.getElementById('prayer_Times').innerHTML = rows;
-
-            // Start checking for the prayer time and updating the current time
-            setInterval(() => {
-                checkPrayerTime(azan.data.timings);
-                updateCurrentTime();
-            }, 1000);
-
-            // Play audio every minute
-            setInterval(() => {
-                new Audio('https://www.islamcan.com/audio/adhan/azan20.mp3').play();
-                document.getElementById('audioStatus').innerText = "Audio is starting now";
-            }, 10000); // 60000 ms = 1 minute
-        }
-
-        function checkPrayerTime(timings) {
-            let currentTime = new Date().toLocaleTimeString("en-US", {
-                hour: "numeric",
-                hour12: false,
-                minute: "numeric",
             });
 
-            // Loop through all prayers and check if the current time matches any prayer time
-            for (const [prayer, time] of Object.entries(timings)) {
-                if (time === currentTime) {
-                    new Audio('https://www.islamcan.com/audio/adhan/azan20.mp3').play();
-                    console.log(`It's time for ${prayer} prayer`);
-                    break; // Stop checking after finding the matching prayer time
-                }
-            }
+            document.getElementById('pokemon_List').innerHTML = rows;
         }
 
-        function updateCurrentTime() {
-            let currentTime = new Date().toLocaleTimeString("en-US", {
-                hour: "numeric",
-                hour12: false,
-                minute: "numeric",
-            });
-            document.getElementById('current_Time').innerText = currentTime;
-        }
-
-        fetchPrayerTimes(); // Call the function to fetch prayer times and start checking
+        fetchPokemonData(); // Call the function to fetch Pokémon data and display it
     </script>
 </body>
 </html>

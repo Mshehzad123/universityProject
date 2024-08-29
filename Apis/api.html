@@ -32,11 +32,10 @@
           let rows = '';
           data.forEach(comment => {
               rows += `<tr>
+                <td>${comment.email}</td>
                   <td>${comment.postId}</td>
                   <td>${comment.id}</td>
                   <td>${comment.name}</td>
-                  <td>${comment.email}</td>
-                  <td>${comment.body}</td>
               </tr>`;
           });
           document.getElementById('table_Rows').innerHTML = rows;

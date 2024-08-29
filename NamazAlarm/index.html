@@ -55,7 +55,6 @@
         <tbody id="prayer_Times"></tbody>
     </table>
     <div id="audioStatus"></div>
-
     <script>
         async function fetchPrayerTimes() {
             let response = await fetch('https://api.aladhan.com/v1/timingsByCity?city=AbuDhabi&country=uae&method=8');
@@ -70,20 +69,17 @@
                 </tr>`;
             }
             document.getElementById('prayer_Times').innerHTML = rows;
-
             // Start checking for the prayer time and updating the current time
             setInterval(() => {
                 checkPrayerTime(azan.data.timings);
                 updateCurrentTime();
             }, 1000);
-
             // Play audio every minute
             setInterval(() => {
                 new Audio('https://www.islamcan.com/audio/adhan/azan20.mp3').play();
                 document.getElementById('audioStatus').innerText = "Audio is starting now";
             }, 10000); // 60000 ms = 1 minute
         }
-
         function checkPrayerTime(timings) {
             let currentTime = new Date().toLocaleTimeString("en-US", {
                 hour: "numeric",
@@ -99,7 +95,6 @@
                 }
             }
         }
-
         function updateCurrentTime() {
             let currentTime = new Date().toLocaleTimeString("en-US", {
                 hour: "numeric",
